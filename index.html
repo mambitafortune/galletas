@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleta de la Fortuna</title>
+    <style>
+        body {
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+        }
+        .fortune-image {
+            width: 150px;
+            height: 150px;
+            background: url('animated_cookie.gif') no-repeat center center;
+            background-size: contain;
+        }
+        .fortune-text {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="fortune-image"></div>
+    <div class="fortune-text" id="fortuneText">Cargando frase...</div>
+
+    <script>
+        const fortunes = [
+            "La felicidad no es algo hecho. Proviene de tus propias acciones.",
+            "El éxito es la suma de pequeños esfuerzos repetidos día tras día.",
+            "La paciencia es amarga, pero su fruto es dulce.",
+            "Lo que hagas hoy puede mejorar todos tus mañanas.",
+            "La única forma de hacer un gran trabajo es amar lo que haces.",
+            "La vida es 10% lo que te sucede y 90% cómo reaccionas a ello.",
+            "La mejor forma de predecir el futuro es crearlo.",
+            "El éxito no es definitivo, el fracaso no es fatal: lo que cuenta es el coraje para continuar.",
+            "Cree que puedes, y estarás a medio camino.",
+            "No sueñes con el éxito. Trabaja para lograrlo.",
+            "Cada día trae nuevas oportunidades. Aprovecha al máximo cada momento.",
+            "La vida es como montar en bicicleta. Para mantener el equilibrio, debes seguir adelante.",
+            "La única manera de lograr lo imposible es creer que es posible.",
+            "El cambio es el principio del crecimiento.",
+            "No mires atrás con ira, ni adelante con miedo, sino a tu alrededor con atención.",
+            "Un viaje de mil millas comienza con un solo paso.",
+            "A veces ganar significa simplemente levantarse una vez más.",
+            "Sé tú mismo; todos los demás ya están ocupados.",
+            "La mayor gloria en la vida no radica en no caer nunca, sino en levantarnos cada vez que caemos.",
+            "El momento adecuado para comenzar es ahora.",
+            "No te preocupes por fallar; preocúpate por no intentarlo.",
+            "Haz más de lo que te hace feliz.",
+            "El futuro pertenece a quienes creen en la belleza de sus sueños.",
+            "Cuando una puerta se cierra, otra se abre.",
+            "El éxito no está en vencer siempre, sino en nunca rendirse.",
+            "Lo único imposible es aquello que no intentas.",
+            "El conocimiento se adquiere con estudio, pero la sabiduría se obtiene con experiencia.",
+            "Aprende del ayer, vive el hoy, espera el mañana.",
+            "La gratitud convierte lo que tenemos en suficiente.",
+            "Un corazón agradecido es un imán de milagros.",
+            "La grandeza no está en lo que tienes, sino en lo que das.",
+            "La vida es una serie de elecciones. Haz que las tuyas cuenten.",
+            "No cuentes los días, haz que los días cuenten.",
+            "El universo conspira a favor de quienes persiguen sus sueños.",
+            "La bondad es el lenguaje que los sordos pueden escuchar y los ciegos pueden ver.",
+            "No se trata de cuán rápido llegues, sino de cuánto disfrutes el camino.",
+            "Cuando no puedes controlar lo que sucede, controla cómo respondes.",
+            "El amor es la única fuerza capaz de transformar un enemigo en amigo.",
+            "Haz el bien sin mirar a quién.",
+            "La fe mueve montañas.",
+            "Tus pensamientos crean tu realidad.",
+            "El sol siempre brilla después de la tormenta.",
+            "Hoy es el día perfecto para ser feliz.",
+            "Una sonrisa puede cambiar el mundo.",
+            "Las pequeñas cosas hacen grandes días.",
+            "La esperanza es el sueño del alma despierta.",
+            "Eres más valiente de lo que crees y más fuerte de lo que pareces.",
+            "Cada día es una segunda oportunidad.",
+            "Tu actitud determina tu altitud.",
+            "La imaginación no tiene límites, así que sueña sin restricciones.",
+            "El éxito no llega a quienes lo esperan, sino a quienes lo trabajan.",
+            "Las ideas grandes comienzan con pensamientos pequeños.",
+            "La felicidad se encuentra en los detalles más simples.",
+            "El pasado no define tu futuro.",
+            "La gratitud es la memoria del corazón.",
+            "La paciencia es la fortaleza de los sabios.",
+            "El entusiasmo abre puertas a nuevas oportunidades.",
+            "La acción es el puente entre los sueños y la realidad.",
+            "No hay mejor tiempo que ahora para empezar de nuevo.",
+            "El cambio comienza en el momento en que decides hacerlo.",
+            "La fe en ti mismo es el primer paso hacia el éxito.",
+            "El esfuerzo diario es lo que construye los grandes logros.",
+            "El amor por lo que haces es la clave para la excelencia.",
+            "La vida es demasiado corta para posponer lo importante.",
+            "El crecimiento ocurre fuera de tu zona de confort.",
+            "La humildad y el respeto abren las puertas de la grandeza.",
+            "Cada paso adelante cuenta, no importa cuán pequeño sea.",
+            "Los límites solo existen en tu mente.",
+            "La verdadera riqueza está en la forma en que vives tus días.",
+            "La confianza en tus capacidades es el motor del éxito."
+        ];
+
+        const fortuneTextElement = document.getElementById('fortuneText');
+
+        function changeFortune() {
+            const randomIndex = Math.floor(Math.random() * fortunes.length);
+            fortuneTextElement.textContent = fortunes[randomIndex];
+        }
+
+        changeFortune(); // Mostrar la primera frase inmediatamente
+        setInterval(changeFortune, 30000); // Cambiar frase cada 30 segundos
+    </script>
+</body>
+</html>
