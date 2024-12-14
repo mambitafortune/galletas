@@ -109,9 +109,19 @@
 
         const fortuneTextElement = document.getElementById('fortuneText');
 
+        function generateUniqueRandomNumbers(count, min, max) {
+            const numbers = new Set();
+            while (numbers.size < count) {
+                const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+                numbers.add(randomNum);
+            }
+            return Array.from(numbers);
+        }
+
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
-            fortuneTextElement.textContent = fortunes[randomIndex];
+            const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
+            fortuneTextElement.textContent = `${fortunes[randomIndex]} [${randomNumbers.join(", ")}]`;
         }
 
         changeFortune(); // Mostrar la primera frase inmediatamente
