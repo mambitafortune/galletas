@@ -121,7 +121,7 @@
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
-            fortuneTextElement.textContent = `${fortunes[randomIndex]} [${randomNumbers.join(", ")}]`;
+            fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
         }
 
         changeFortune(); // Mostrar la primera frase inmediatamente
