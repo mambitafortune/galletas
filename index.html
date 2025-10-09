@@ -124,8 +124,8 @@
             fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
         }
 
-        changeFortune(); // Mostrar la primera frase inmediatamente
-        setInterval(changeFortune, 60000); // Cambiar frase cada 60 segundos
+        // Mostrar una frase diferente cada vez que se recarga la página
+        changeFortune();
     </script>
 </body>
 </html>
