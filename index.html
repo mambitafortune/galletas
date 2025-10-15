@@ -17,27 +17,38 @@
             color: #b5c204;
             text-align: center;
         }
-
         .fortune-image {
             width: 300px;
             height: 300px;
             background: url('animated_cookie.gif') no-repeat center center;
             background-size: contain;
         }
-
         .fortune-text {
             margin-top: 30px;
             font-size: 5rem;
             opacity: 0;
-            white-space: pre-wrap;
-            text-shadow: 0 0 15px rgba(255,255,150,0.7);
-            transition: opacity 0.3s ease;
+            animation: magicAppear 3s ease forwards;
         }
 
-        @keyframes magic-appear {
-            0% { opacity: 0; text-shadow: 0 0 5px #fff; }
-            50% { opacity: 0.7; text-shadow: 0 0 20px #fff; }
-            100% { opacity: 1; text-shadow: 0 0 10px #b5c204; }
+        /* ✨ Animación mágica de aparición ✨ */
+        @keyframes magicAppear {
+            0% {
+                opacity: 0;
+                filter: blur(15px) hue-rotate(180deg);
+                transform: scale(0.8) rotate(-5deg);
+                text-shadow: 0 0 20px #fff, 0 0 40px #b5c204, 0 0 80px #b5c204;
+            }
+            60% {
+                opacity: 1;
+                filter: blur(4px) hue-rotate(0deg);
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: scale(1);
+                text-shadow: 0 0 10px #b5c204, 0 0 20px #fff;
+            }
         }
     </style>
 </head>
@@ -130,23 +141,15 @@
             return Array.from(numbers);
         }
 
-        function typeText(element, text, speed = 40) {
-            element.textContent = "";
-            element.style.opacity = 1;
-            element.style.animation = "magic-appear 1.5s ease-in-out";
-            let i = 0;
-            const interval = setInterval(() => {
-                element.textContent += text.charAt(i);
-                i++;
-                if (i >= text.length) clearInterval(interval);
-            }, speed);
-        }
-
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
-            const fullText = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
-            typeText(fortuneTextElement, fullText);
+            fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
+
+            // Reiniciar la animación mágica en cada recarga
+            fortuneTextElement.style.animation = 'none';
+            void fortuneTextElement.offsetWidth; // forzar reflow
+            fortuneTextElement.style.animation = 'magicAppear 3s ease forwards';
         }
 
         changeFortune();
