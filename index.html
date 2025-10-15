@@ -17,15 +17,27 @@
             color: #b5c204;
             text-align: center;
         }
+
         .fortune-image {
             width: 300px;
             height: 300px;
             background: url('animated_cookie.gif') no-repeat center center;
             background-size: contain;
         }
+
         .fortune-text {
             margin-top: 30px;
             font-size: 5rem;
+            opacity: 0;
+            white-space: pre-wrap;
+            text-shadow: 0 0 15px rgba(255,255,150,0.7);
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes magic-appear {
+            0% { opacity: 0; text-shadow: 0 0 5px #fff; }
+            50% { opacity: 0.7; text-shadow: 0 0 20px #fff; }
+            100% { opacity: 1; text-shadow: 0 0 10px #b5c204; }
         }
     </style>
 </head>
@@ -118,13 +130,25 @@
             return Array.from(numbers);
         }
 
+        function typeText(element, text, speed = 40) {
+            element.textContent = "";
+            element.style.opacity = 1;
+            element.style.animation = "magic-appear 1.5s ease-in-out";
+            let i = 0;
+            const interval = setInterval(() => {
+                element.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) clearInterval(interval);
+            }, speed);
+        }
+
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
-            fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
+            const fullText = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
+            typeText(fortuneTextElement, fullText);
         }
 
-        // Mostrar una frase diferente cada vez que se recarga la página
         changeFortune();
     </script>
 </body>
