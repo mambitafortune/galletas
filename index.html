@@ -26,35 +26,15 @@
         .fortune-text {
             margin-top: 30px;
             font-size: 5rem;
-            opacity: 0;
-            animation: magicAppear 3s ease forwards;
-        }
-
-        /* ✨ Animación mágica de aparición ✨ */
-        @keyframes magicAppear {
-            0% {
-                opacity: 0;
-                filter: blur(15px) hue-rotate(180deg);
-                transform: scale(0.8) rotate(-5deg);
-                text-shadow: 0 0 20px #fff, 0 0 40px #b5c204, 0 0 80px #b5c204;
-            }
-            60% {
-                opacity: 1;
-                filter: blur(4px) hue-rotate(0deg);
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0);
-                transform: scale(1);
-                text-shadow: 0 0 10px #b5c204, 0 0 20px #fff;
-            }
         }
     </style>
 </head>
 <body>
     <div class="fortune-image"></div>
     <div class="fortune-text" id="fortuneText">Cargando frase...</div>
+
+    <!-- 🔊 SONIDO MÁGICO -->
+    <audio id="magicSound" src="sonido_magico.mp3" preload="auto"></audio>
 
     <script>
         const fortunes = [
@@ -131,6 +111,7 @@
         ];
 
         const fortuneTextElement = document.getElementById('fortuneText');
+        const magicSound = document.getElementById('magicSound');
 
         function generateUniqueRandomNumbers(count, min, max) {
             const numbers = new Set();
@@ -145,13 +126,11 @@
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
             fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
-
-            // Reiniciar la animación mágica en cada recarga
-            fortuneTextElement.style.animation = 'none';
-            void fortuneTextElement.offsetWidth; // forzar reflow
-            fortuneTextElement.style.animation = 'magicAppear 3s ease forwards';
+            magicSound.currentTime = 0;
+            magicSound.play();
         }
 
+        // Mostrar una frase diferente cada vez que se recarga la página
         changeFortune();
     </script>
 </body>
