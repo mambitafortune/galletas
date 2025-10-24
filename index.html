@@ -33,6 +33,9 @@
     <div class="fortune-image"></div>
     <div class="fortune-text" id="fortuneText">Cargando frase...</div>
 
+    <!-- 🔊 SONIDO MÁGICO -->
+    <audio id="magicSound" src="sonido_magico.mp3" preload="auto"></audio>
+
     <script>
         const fortunes = [
             "La felicidad no es algo hecho. Proviene de tus propias acciones.",
@@ -108,6 +111,7 @@
         ];
 
         const fortuneTextElement = document.getElementById('fortuneText');
+        const magicSound = document.getElementById('magicSound');
 
         function generateUniqueRandomNumbers(count, min, max) {
             const numbers = new Set();
@@ -122,6 +126,8 @@
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
             fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
+            magicSound.currentTime = 0;
+            magicSound.play();
         }
 
         // Mostrar una frase diferente cada vez que se recarga la página
@@ -129,3 +135,4 @@
     </script>
 </body>
 </html>
+
