@@ -16,6 +16,7 @@
             font-family: Arial, sans-serif;
             color: #b5c204;
             text-align: center;
+            overflow: hidden;
         }
         .fortune-image {
             width: 300px;
@@ -25,7 +26,11 @@
         }
         .fortune-text {
             margin-top: 30px;
-            font-size: 5rem;
+            font-size: 3rem;
+            opacity: 0;
+            white-space: pre-wrap;
+            text-shadow: 0 0 10px #fff200, 0 0 20px #ffe800, 0 0 30px #fff;
+            transition: opacity 0.3s ease-in;
         }
     </style>
 </head>
@@ -33,7 +38,7 @@
     <div class="fortune-image"></div>
     <div class="fortune-text" id="fortuneText">Cargando frase...</div>
 
-    <!-- 🔊 Audio agregado -->
+    <!-- 🔊 Audio -->
     <audio id="magicSound" src="https://github.com/mambitafortune/galletas/raw/refs/heads/main/sonido_magico.mp3.mp3"></audio>
 
     <script>
@@ -122,17 +127,35 @@
             return Array.from(numbers);
         }
 
+        function showTextAnimated(text) {
+            fortuneTextElement.textContent = "";
+            fortuneTextElement.style.opacity = 1;
+            let i = 0;
+
+            function type() {
+                if (i < text.length) {
+                    fortuneTextElement.textContent += text[i];
+                    i++;
+                    setTimeout(type, 35); // velocidad de aparición
+                }
+            }
+            type();
+        }
+
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
-            fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
-            
-            // 🔊 Reproduce el sonido al cambiar la frase
+            const newText = `${fortunes[randomIndex]}\nTus números de la suerte son: [${randomNumbers.join(", ")}]`;
+
+            // 🔊 Sonido mágico
             magicSound.currentTime = 0;
             magicSound.play().catch(() => {});
+
+            // ✨ Animación de texto
+            showTextAnimated(newText);
         }
 
-        // Mostrar una frase diferente cada vez que se recarga la página
+        // Ejecutar al recargar la página
         changeFortune();
     </script>
 </body>
