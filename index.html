@@ -17,15 +17,37 @@
             color: #b5c204;
             text-align: center;
         }
+
         .fortune-image {
             width: 300px;
             height: 300px;
             background: url('animated_cookie.gif') no-repeat center center;
             background-size: contain;
         }
+
         .fortune-text {
             margin-top: 30px;
             font-size: 5rem;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: aparecer 1.5s ease-out forwards;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateZ(-100px);
+                filter: blur(5px);
+            }
+            70% {
+                opacity: 1;
+                filter: blur(1px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateZ(0);
+                filter: blur(0);
+            }
         }
     </style>
 </head>
@@ -33,7 +55,7 @@
     <div class="fortune-image"></div>
     <div class="fortune-text" id="fortuneText">Cargando frase...</div>
 
-    <!-- 🔊 Audio agregado -->
+    <!-- 🔊 Audio -->
     <audio id="magicSound" src="https://github.com/mambitafortune/galletas/raw/refs/heads/main/sonido_magico.mp3.mp3"></audio>
 
     <script>
@@ -126,13 +148,16 @@
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
             fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
-            
-            // 🔊 Reproduce el sonido al cambiar la frase
+
+            // Reinicia animación y sonido
+            fortuneTextElement.style.animation = 'none';
+            void fortuneTextElement.offsetWidth; // truco para reiniciar animación
+            fortuneTextElement.style.animation = 'aparecer 1.5s ease-out forwards';
+
             magicSound.currentTime = 0;
             magicSound.play().catch(() => {});
         }
 
-        // Mostrar una frase diferente cada vez que se recarga la página
         changeFortune();
     </script>
 </body>
