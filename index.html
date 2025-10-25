@@ -17,20 +17,29 @@
             color: #b5c204;
             text-align: center;
             overflow: hidden;
+            perspective: 800px;
         }
+
         .fortune-image {
             width: 300px;
             height: 300px;
             background: url('animated_cookie.gif') no-repeat center center;
             background-size: contain;
         }
+
         .fortune-text {
             margin-top: 30px;
             font-size: 3rem;
             opacity: 0;
+            transform: translateZ(-400px) scale(0.5);
+            text-shadow: 0 0 10px #fff200, 0 0 20px #ffe800, 0 0 40px #fff;
+            transition: transform 1.2s ease-out, opacity 1.2s ease-out;
             white-space: pre-wrap;
-            text-shadow: 0 0 10px #fff200, 0 0 20px #ffe800, 0 0 30px #fff;
-            transition: opacity 0.3s ease-in;
+        }
+
+        .fortune-text.visible {
+            opacity: 1;
+            transform: translateZ(0) scale(1);
         }
     </style>
 </head>
@@ -127,19 +136,16 @@
             return Array.from(numbers);
         }
 
-        function showTextAnimated(text) {
+        function showTextFromDepth(text) {
             fortuneTextElement.textContent = "";
-            fortuneTextElement.style.opacity = 1;
-            let i = 0;
+            fortuneTextElement.classList.remove('visible');
+            fortuneTextElement.style.opacity = 0;
 
-            function type() {
-                if (i < text.length) {
-                    fortuneTextElement.textContent += text[i];
-                    i++;
-                    setTimeout(type, 35); // velocidad de aparición
-                }
-            }
-            type();
+            // Pequeño retardo antes de animar
+            setTimeout(() => {
+                fortuneTextElement.textContent = text;
+                fortuneTextElement.classList.add('visible');
+            }, 100);
         }
 
         function changeFortune() {
@@ -151,8 +157,8 @@
             magicSound.currentTime = 0;
             magicSound.play().catch(() => {});
 
-            // ✨ Animación de texto
-            showTextAnimated(newText);
+            // ✨ Animación 3D desde el fondo
+            showTextFromDepth(newText);
         }
 
         // Ejecutar al recargar la página
