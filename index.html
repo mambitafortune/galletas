@@ -135,23 +135,13 @@
         const fortuneTextElement = document.getElementById('fortuneText');
         const magicSound = document.getElementById('magicSound');
 
-        function generateUniqueRandomNumbers(count, min, max) {
-            const numbers = new Set();
-            while (numbers.size < count) {
-                const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-                numbers.add(randomNum);
-            }
-            return Array.from(numbers);
-        }
-
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
-            const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
-            fortuneTextElement.textContent = `${fortunes[randomIndex]} Tus números de la suerte son: [${randomNumbers.join(", ")}]`;
+            fortuneTextElement.textContent = fortunes[randomIndex];
 
             // Reinicia animación y sonido
             fortuneTextElement.style.animation = 'none';
-            void fortuneTextElement.offsetWidth; // truco para reiniciar animación
+            void fortuneTextElement.offsetWidth;
             fortuneTextElement.style.animation = 'aparecer 1.5s ease-out forwards';
 
             magicSound.currentTime = 0;
