@@ -17,7 +17,6 @@
             color: #b5c204;
             text-align: center;
             overflow: hidden;
-            perspective: 800px;
         }
 
         .fortune-image {
@@ -31,15 +30,24 @@
             margin-top: 30px;
             font-size: 3rem;
             opacity: 0;
-            transform: translateZ(-400px) scale(0.5);
-            text-shadow: 0 0 10px #fff200, 0 0 20px #ffe800, 0 0 40px #fff;
-            transition: transform 1.2s ease-out, opacity 1.2s ease-out;
+            transform: translateY(30px) scale(0.9);
             white-space: pre-wrap;
+            text-shadow: 0 0 10px #fff200, 0 0 20px #ffe800, 0 0 30px #fff;
+            filter: blur(6px);
+            transition: all 1s ease-out;
         }
 
-        .fortune-text.visible {
+        /* ✨ Animación mágica */
+        .fortune-text.show {
             opacity: 1;
-            transform: translateZ(0) scale(1);
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+            animation: glow 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 8px #fff200, 0 0 15px #ffe800, 0 0 25px #fff; }
+            100% { text-shadow: 0 0 20px #fff900, 0 0 40px #ffd000, 0 0 60px #fff; }
         }
     </style>
 </head>
@@ -47,7 +55,7 @@
     <div class="fortune-image"></div>
     <div class="fortune-text" id="fortuneText">Cargando frase...</div>
 
-    <!-- 🔊 Audio -->
+    <!-- 🔊 Audio mágico -->
     <audio id="magicSound" src="https://github.com/mambitafortune/galletas/raw/refs/heads/main/sonido_magico.mp3.mp3"></audio>
 
     <script>
@@ -136,29 +144,27 @@
             return Array.from(numbers);
         }
 
-        function showTextFromDepth(text) {
-            fortuneTextElement.textContent = "";
-            fortuneTextElement.classList.remove('visible');
-            fortuneTextElement.style.opacity = 0;
-
-            // Pequeño retardo antes de animar
-            setTimeout(() => {
-                fortuneTextElement.textContent = text;
-                fortuneTextElement.classList.add('visible');
-            }, 100);
-        }
-
         function changeFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
             const randomNumbers = generateUniqueRandomNumbers(3, 1, 90);
             const newText = `${fortunes[randomIndex]}\nTus números de la suerte son: [${randomNumbers.join(", ")}]`;
 
-            // 🔊 Sonido mágico
+            // Reinicia animación
+            fortuneTextElement.classList.remove('show');
+            fortuneTextElement.style.opacity = 0;
+            fortuneTextElement.style.transform = 'translateY(30px) scale(0.9)';
+            fortuneTextElement.style.filter = 'blur(6px)';
+            fortuneTextElement.textContent = '';
+
+            // 🔊 Reproduce sonido mágico
             magicSound.currentTime = 0;
             magicSound.play().catch(() => {});
 
-            // ✨ Animación 3D desde el fondo
-            showTextFromDepth(newText);
+            // Espera un instante y muestra la frase con efecto
+            setTimeout(() => {
+                fortuneTextElement.textContent = newText;
+                fortuneTextElement.classList.add('show');
+            }, 200);
         }
 
         // Ejecutar al recargar la página
@@ -166,3 +172,4 @@
     </script>
 </body>
 </html>
+
