@@ -49,6 +49,18 @@
                 filter: blur(0);
             }
         }
+
+        /* ✨ Efecto especial para la fortuna celestial */
+        .special {
+            color: gold;
+            text-shadow: 0 0 15px gold, 0 0 30px #fff000;
+            animation: brillar 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes brillar {
+            from { text-shadow: 0 0 10px gold, 0 0 20px #fff000; }
+            to { text-shadow: 0 0 25px gold, 0 0 40px #fff000; }
+        }
     </style>
 </head>
 <body>
@@ -59,8 +71,9 @@
     <audio id="magicSound" src="https://github.com/mambitafortune/galletas/raw/refs/heads/main/sonido_magico.mp3.mp3"></audio>
 
     <script>
+        const specialFortune = "La fortuna celestial se posa sobre ti: los Arcontes han decidido que un cofre sea tu recompensa.";
+
         const fortunes = [
-            // Frases originales
             "La felicidad no es algo hecho. Proviene de tus propias acciones.",
             "El éxito es la suma de pequeños esfuerzos repetidos día tras día.",
             "La paciencia es amarga, pero su fruto es dulce.",
@@ -131,8 +144,6 @@
             "Los límites solo existen en tu mente.",
             "La verdadera riqueza está en la forma en que vives tus días.",
             "La confianza en tus capacidades es el motor del éxito.",
-
-            // 100 nuevas frases
             "Hoy es el primer día del resto de tu suerte.",
             "Un pequeño cambio traerá grandes recompensas.",
             "La paciencia tiene su propia recompensa.",
@@ -239,8 +250,27 @@
         const magicSound = document.getElementById('magicSound');
 
         function changeFortune() {
-            const randomIndex = Math.floor(Math.random() * fortunes.length);
-            fortuneTextElement.textContent = fortunes[randomIndex];
+            const totalFortunes = fortunes.length;
+            const specialChance = 0.01; // 1% fijo
+
+            // Calcula la probabilidad para cada frase normal dinámicamente
+            const normalChance = (1 - specialChance) / totalFortunes;
+
+            const randomNumber = Math.random();
+            let chosenFortune;
+
+            if (randomNumber < specialChance) {
+                // 🌟 Frase especial (1%)
+                chosenFortune = specialFortune;
+                fortuneTextElement.classList.add("special");
+            } else {
+                // 🧧 Frases normales distribuidas equitativamente
+                const index = Math.floor((randomNumber - specialChance) / normalChance);
+                chosenFortune = fortunes[index];
+                fortuneTextElement.classList.remove("special");
+            }
+
+            fortuneTextElement.textContent = chosenFortune;
 
             // Reinicia animación y sonido
             fortuneTextElement.style.animation = 'none';
